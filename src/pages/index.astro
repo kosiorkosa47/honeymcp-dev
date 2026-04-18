@@ -1,17 +1,54 @@
 ---
-
+import Base from "../layouts/Base.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base title="honeymcp - open-source honeypot for MCP servers">
+  <p class="post-meta">project · live on a Singapore VPS</p>
+
+  <h1>What attackers actually send to MCP servers.</h1>
+
+  <p>
+    <strong>honeymcp</strong> is an open-source honeypot that impersonates a legitimate
+    MCP (Model Context Protocol) server and logs every request it receives. It is written
+    in Rust, runs anywhere Docker does, and is built to generate a public corpus of
+    real-world attacks against the AI agent stack.
+  </p>
+
+  <p>
+    The ecosystem has plenty of preventive tooling - gateways, classifiers, proxies.
+    What it does not have is a public feed of what attackers actually send to MCP
+    servers in the wild. <a href="/blog/">The blog</a> tracks the build, the captures,
+    and the analysis as they happen.
+  </p>
+
+  <h2>What ships</h2>
+
+  <ul>
+    <li><code>honeymcp</code> - the sensor. JSON-RPC 2.0 over stdio or HTTP+SSE. Three built-in personas.</li>
+    <li><code>honeymcp-probes</code> - 13-payload audit CLI for any MCP endpoint. <code>--fail-on-critical</code> as a CI gate.</li>
+    <li>Seven threat detectors: prompt injection, shell injection, recon, tool enumeration, secret exfil, supply-chain config injection, unicode anomaly.</li>
+    <li>SQLite + JSONL structured logging with remote address, User-Agent, and X-Forwarded-For capture.</li>
+    <li>Live dashboard at <code>/dashboard</code> and JSON metrics at <code>/stats</code>.</li>
+  </ul>
+
+  <h2>Install</h2>
+
+  <pre><code>git clone https://github.com/kosiorkosa47/honeymcp
+cd honeymcp
+docker compose up -d
+curl http://localhost:8080/healthz</code></pre>
+
+  <p>
+    Deployment guide, persona format, and probe catalog live in the
+    <a href="https://github.com/kosiorkosa47/honeymcp" target="_blank" rel="noopener">repo</a>.
+  </p>
+
+  <h2>Status</h2>
+
+  <p class="mono">v0.4.0 · 7 detectors · 3 personas · 42 tests · live in Singapore</p>
+
+  <p>
+    Built and maintained by <a href="/about/">Michał Kosiorek</a>.
+    Building in public as <a href="https://x.com/0xAlpha" target="_blank" rel="noopener">@0xAlpha</a>.
+  </p>
+</Base>

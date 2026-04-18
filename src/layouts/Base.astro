@@ -1,0 +1,66 @@
+---
+import "../styles/global.css";
+
+export interface Props {
+    title: string;
+    description?: string;
+    canonical?: string;
+    ogType?: "website" | "article";
+}
+
+const {
+    title,
+    description = "Open-source honeypot for MCP (Model Context Protocol) servers. Telemetry on attacks against the AI agent stack.",
+    canonical,
+    ogType = "website",
+} = Astro.props as Props;
+
+const site = "https://honeymcp.dev";
+const canonicalHref = canonical ?? new URL(Astro.url.pathname, site).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalHref} />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalHref} />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="/" class="brand"><span class="hero-dot"></span>honeymcp<span style="color:var(--fg-faint)">.dev</span></a>
+      <nav>
+        <a href="/blog/">blog</a>
+        <a href="/about/">about</a>
+        <a href="https://github.com/kosiorkosa47/honeymcp" target="_blank" rel="noopener">github</a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <span>honeymcp.dev · Apache-2.0 · built in public</span>
+      <span>
+        <a href="/feed.xml">rss</a>
+        &nbsp;·&nbsp;
+        <a href="https://x.com/0xAlpha" target="_blank" rel="noopener">x</a>
+        &nbsp;·&nbsp;
+        <a href="mailto:mkosiorek121@gmail.com">email</a>
+      </span>
+    </footer>
+  </body>
+</html>

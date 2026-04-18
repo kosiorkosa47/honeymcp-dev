@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+
+const posts = (await getCollection("blog", ({ data }) => data.published !== false))
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+function fmtDate(d: Date): string {
+    return d.toISOString().slice(0, 10);
+}
+---
+
+<Base title="Blog - honeymcp.dev" description="Build log, captures, and analysis from the honeymcp project.">
+  <p class="post-meta">blog · build log · captures · analysis</p>
+
+  <h1>Writing</h1>
+
+  <p>
+    Build-in-public log of the honeymcp project. New posts go up as the work ships.
+    No newsletter, no subscribe form - the <a href="/feed.xml">RSS feed</a> exists; tell
+    whatever reader you use.
+  </p>
+
+  {posts.length === 0 ? (
+    <p>Nothing yet. Back here shortly.</p>
+  ) : (
+    <ul class="post-list">
+      {posts.map(p => (
+        <li>
+          <time datetime={fmtDate(p.data.pubDate)}>{fmtDate(p.data.pubDate)}</time>
+          <a href={`/blog/${p.id}/`}>{p.data.title}</a>
+        </li>
+      ))}
+    </ul>
+  )}
+</Base>
